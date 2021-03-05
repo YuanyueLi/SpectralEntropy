@@ -1,0 +1,5 @@
+sphinxcontrib-email
+jsonschema>=3.0.2
+numpy>=1.17.4
+scipy>=1.3.2
+cython>=0.29.13

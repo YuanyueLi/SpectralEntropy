@@ -1,0 +1,10 @@
+version: 2
+sphinx:
+    configuration: docs/source/conf.py
+submodules:
+    include: all
+python:
+    version: 3.7
+    install:
+        - requirements: docs/requirements.txt
+
