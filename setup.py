@@ -7,7 +7,7 @@ import numpy as np
 
 setup(
     name="Daphnis",
-    version=version["__version__"],
+    version="1.0",
     packages=find_packages(exclude=['*tests*']),
     python_requires='>=3.7',
     url="https://github.com/YuanyueLi/Daphnis",
