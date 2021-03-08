@@ -7,6 +7,8 @@ Welcome
 ===================================
 Welcome to use this package, you can download the code from `Github <https://github.com/YuanyueLi/Daphnis>`_. If you have any question, please send E-mail to :email:`Yuanyue Li <gccli@ucdavis.edu>`
 
+Before calculating spectral similarity, it's highly recommended to remove spectral noise. For example, peaks have intensity less than 1% maximum intensity can be removed to improve identificaiton performance.
+
 Usage
 =====
 .. automodule:: spectral_similarity
