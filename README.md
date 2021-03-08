@@ -8,7 +8,7 @@ You can find the detail reference here: [https://daphnis.readthedocs.io/en/maste
 
 Python 3.7, numpy>=1.17.4, scipy>=1.3.2
 
-cython>=0.29.13 (Not required by recommended)
+cython>=0.29.13 (Not required but highly recommended)
 
 ```bash
 # The command below is not required but strongly recommended, as it will compile the cython code to run faster
@@ -16,6 +16,8 @@ python setup.py build_ext --inplace
 ```
 
 # Example code
+
+Before calculating spectral similarity, it's highly recommended to remove spectral noise. For example, peaks have intensity less than 1% maximum intensity can be removed to improve identificaiton performance.
 
 ```python
 import numpy as np
