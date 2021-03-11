@@ -1,7 +1,6 @@
 #!/usr/bin/python
 import pprint
-from . import spectral_similarity
-from .tools import clean_spectrum
+import spectral_similarity
 
 
 def test_0():

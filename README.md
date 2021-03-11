@@ -1,3 +1,6 @@
+[![Python Package using Conda](https://github.com/hechth/Daphnis/actions/workflows/python-package-conda.yml/badge.svg?branch=master)](https://github.com/hechth/Daphnis/actions/workflows/python-package-conda.yml)
+[![Python package](https://github.com/hechth/Daphnis/actions/workflows/python-package.yml/badge.svg?branch=master)](https://github.com/hechth/Daphnis/actions/workflows/python-package.yml)
+
 # Spectral similarity
 
 The similarity score for MS/MS spectral comparison
