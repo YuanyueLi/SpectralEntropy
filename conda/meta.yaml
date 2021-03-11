@@ -1,0 +1,60 @@
+{% set name = "daphnis" %}
+{% set version = "1.0.0" %}
+
+package:
+  name: {{ name|lower }}
+  version: {{ version }}
+
+source:
+  path: ..
+
+extra:
+  channels:
+    - conda-forge
+    - bioconda
+
+build:
+  noarch: python
+  preserve_egg_dir: True
+  number: 0
+  skip: True # [py2k]
+  script: {{ PYTHON }} -m pip install --no-deps --ignore-installed . -vv
+
+requirements:
+  build:
+    - conda-build
+    - conda-verify
+    - pytest-runner
+    - python
+    - numpy>=1.17.4
+    - setuptools
+  host:
+    - python >=3.7,<3.9
+    - pip
+    - pytest-runner
+    - setuptools
+    - cython>=0.29.13
+    - numpy>=1.17.4
+  run:
+    - numpy>=1.17.4
+    - scipy>=1.3.2
+    - cython>=0.29.13
+
+test:
+  imports:
+    - spectral_similarity
+
+about:
+  home: https://github.com/YuanyueLi/Daphnis
+  license: Apache-2.0
+  license_family: APACHE
+  license_file: LICENSE
+  summary: 'The similarity score for spectral comparison'
+  description: |
+    The similarity score for spectral comparison
+  doc_url: https://daphnis.readthedocs.io/en/master/
+  dev_url: https://github.com/YuanyueLi/Daphnis
+
+extra:
+  recipe-maintainers:
+    - hechth
