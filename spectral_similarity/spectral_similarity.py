@@ -299,7 +299,7 @@ def all_distance(spectrum_query: Union[list, np.ndarray], spectrum_library: Unio
     else:
         for method in methods_name:
             if need_normalize_result:
-                result[method] = 0
+                result[method] = 1
             else:
                 result[method] = np.inf
     return result

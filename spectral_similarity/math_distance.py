@@ -2,17 +2,6 @@ import numpy as np
 import scipy.stats
 
 
-def _select_common_peaks(p, q):
-    select = q > 0
-    p = p[select]
-    p_sum = np.sum(p)
-    if p_sum > 0:
-        p = p / p_sum
-    q = q[select]
-    q = q / np.sum(q)
-    return p, q
-
-
 def unweighted_entropy_distance(p, q):
     r"""
     Unweighted entropy distance:
@@ -22,7 +11,9 @@ def unweighted_entropy_distance(p, q):
         -\frac{2\times S_{PQ}-S_P-S_Q} {ln(4)}, S_I=\sum_{i} {I_i ln(I_i)}
     """
     merged = p + q
-    entropy_increase = 2 * scipy.stats.entropy(merged) - scipy.stats.entropy(p) - scipy.stats.entropy(q)
+    entropy_increase = 2 * \
+        scipy.stats.entropy(merged) - scipy.stats.entropy(p) - \
+        scipy.stats.entropy(q)
     return entropy_increase
 
 
@@ -34,25 +25,36 @@ def entropy_distance(p, q):
 
           -\frac{2\times S_{PQ}^{'}-S_P^{'}-S_Q^{'}} {ln(4)}, S_I^{'}=\sum_{i} {I_i^{'} ln(I_i^{'})}, I^{'}=I^{w}, with\ w=0.25+S\times 0.5\ (S<1.5)
     """
-    p = _weight_intensity_for_entropy(p)
-    q = _weight_intensity_for_entropy(q)
+    p = _weight_intensity_by_entropy(p)
+    q = _weight_intensity_by_entropy(q)
 
     return unweighted_entropy_distance(p, q)
 
 
-def _weight_intensity_for_entropy(x):
+def _weight_intensity_by_entropy(x):
     WEIGHT_START = 0.25
-    WEIGHT_SLOPE = 0.5
-    ENTROPY_CUTOFF = 1.5
+    ENTROPY_CUTOFF = 3
+    weight_slope = weight_slope = (1-WEIGHT_START) / ENTROPY_CUTOFF
 
-    x_sum = np.sum(x)
-    if x_sum > 0:
+    if np.sum(x) > 0:
         entropy_x = scipy.stats.entropy(x)
         if entropy_x < ENTROPY_CUTOFF:
-            weight = WEIGHT_START + WEIGHT_SLOPE * entropy_x
+            weight = WEIGHT_START + weight_slope * entropy_x
             x = np.power(x, weight)
+            x_sum = np.sum(x)
             x = x / x_sum
     return x
+
+
+def _select_common_peaks(p, q):
+    select = q > 0
+    p = p[select]
+    p_sum = np.sum(p)
+    if p_sum > 0:
+        p = p / p_sum
+    q = q[select]
+    q = q / np.sum(q)
+    return p, q
 
 
 def euclidean_distance(p, q):
