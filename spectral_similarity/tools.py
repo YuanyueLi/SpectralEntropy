@@ -73,7 +73,7 @@ def centroid_spec(spec, ms2_ppm=None, ms2_da=None):
         return spec
 
 
-def clean_spectrum(spec, max_mz=None, ms2_ppm=None, ms2_da=None):
+def clean_spectrum(spec, noise=0.01, max_mz=None, ms2_ppm=None, ms2_da=None):
     # return spectra.similarity.tools_fast.clean_spectrum(spec, ms2_ppm=ms2_ppm, ms2_da=ms2_da)
     """
     If both ms2_ppm and ms2_da is defined, ms2_da will be used.
@@ -93,6 +93,11 @@ def clean_spectrum(spec, max_mz=None, ms2_ppm=None, ms2_da=None):
 
         # Centroid spectrum
         spec = centroid_spec(spec, ms2_ppm, ms2_da)
+
+        # Remove noise peaks
+        if noise is not None:
+            spec_max = np.max(spec[:, 1])
+            spec = spec[spec[:, 1] > spec_max * noise]
 
         # Normalize the spectrum to sum(intensity)==1
         spec_sum = np.sum(spec[:, 1])
