@@ -29,21 +29,21 @@ import spectral_similarity
 spec_query = np.array([[69.071, 7.917962], [86.066, 1.021589], [86.0969, 100.0]], dtype=np.float32)
 spec_reference = np.array([[41.04, 37.16], [69.07, 66.83], [86.1, 999.0]], dtype=np.float32)
 
-# Get entropy distance.
+# Calculate entropy similarity.
 print('-' * 30)
 similarity = spectral_similarity.similarity(spec_query, spec_reference, method="entropy",
                                             ms2_da=0.05)
 print("Entropy similarity:{}.".format(similarity))
 # The output should be: Entropy similarity:0.9082203404798316.
 
-# Get dynamic weighted entropy distance.
+# Calculate unweighted entropy similarity.
 print('-' * 30)
 similarity = spectral_similarity.similarity(spec_query, spec_reference, method="unweighted_entropy",
                                             ms2_da=0.05)
 print("Unweighted entropy similarity:{}.".format(similarity))
 # The output should be: Unweighted entropy similarity:0.9826668790176113.
 
-# Get all similarity.
+# Calculate all similarity.
 print('-' * 30)
 all_dist = spectral_similarity.all_similarity(spec_query, spec_reference, ms2_da=0.05)
 for dist_name in all_dist:
