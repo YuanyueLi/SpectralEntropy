@@ -1,4 +1,4 @@
-{% set name = "daphnis" %}
+{% set name = "spectral_entropy" %}
 {% set version = "1.0.0" %}
 
 package:
@@ -42,18 +42,18 @@ requirements:
 
 test:
   imports:
-    - spectral_similarity
+    - spectral_entropy
 
 about:
-  home: https://github.com/YuanyueLi/Daphnis
+  home: https://github.com/YuanyueLi/SpectralEntropy
   license: Apache-2.0
   license_family: APACHE
   license_file: LICENSE
   summary: 'The similarity score for spectral comparison'
   description: |
     The similarity score for spectral comparison
-  doc_url: https://daphnis.readthedocs.io/en/master/
-  dev_url: https://github.com/YuanyueLi/Daphnis
+  doc_url: https://spectral_entropy.readthedocs.io/en/master/
+  dev_url: https://github.com/YuanyueLi/SpectralEntropy
 
 extra:
   recipe-maintainers:

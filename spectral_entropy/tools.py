@@ -6,6 +6,67 @@ except Exception as e:
     print("Compile the cython code is highly recommended!")
 
 
+def check_spectrum(spectrum):
+    if len(spectrum) == 0:
+        return np.zeros(0, dtype=np.float32).reshape(-1, 2)
+    spectrum = np.asarray(spectrum, dtype=np.float32, order="C")
+    if spectrum.ndim != 2:
+        raise RuntimeError("Error in input spectrum format!")
+    return spectrum
+
+
+def standardize_spectrum(spectrum):
+    """
+    Sort spectrum by m/z, normalize spectrum to have intensity sum = 1.
+    """
+    spectrum = spectrum[np.argsort(spectrum[:, 0])]
+    intensity_sum = np.sum(spectrum[:, 1])
+    if intensity_sum > 0:
+        spectrum[:, 1] /= intensity_sum
+    return spectrum
+
+
+def clean_spectrum(spectrum,
+                   max_mz: float = None,
+                   noise_removal: float = 0.01,
+                   ms2_da: float = 0.05, ms2_ppm: float = None) -> np.ndarray:
+    """
+    Clean the spectrum with the following procedures:
+    1. Remove ions have m/z higher than a given m/z (defined as max_mz).
+    2. Centroid peaks by merging peaks within a given m/z (defined as ms2_da or ms2_ppm).
+    3. Remove ions have intensity lower than max intensity * fixed value (defined as noise_removal)
+
+
+    :param spectrum: The input spectrum, need to be in 2-D list or 2-D numpy array
+    :param max_mz: The ions with m/z higher than max_mz will be removed.
+    :param noise_removal: The ions with intensity lower than max ion's intensity * noise_removal will be removed.
+    :param ms2_da: The MS/MS tolerance in Da.
+    :param ms2_ppm: The MS/MS tolerance in ppm.
+    If both ms2_da and ms2_ppm is given, ms2_da will be used.
+    """
+    # Check parameter
+    spectrum = check_spectrum(spectrum)
+    if ms2_da is None and ms2_ppm is None:
+        raise RuntimeError("MS2 tolerance need to be set!")
+
+    # 1. Remove the precursor ions
+    if max_mz is not None:
+        spectrum = spectrum[spectrum[:, 0] <= max_mz]
+
+    # 2. Centroid peaks
+    spectrum = spectrum[np.argsort(spectrum[:, 0])]
+    spectrum = centroid_spec(spectrum, ms2_da=ms2_da, ms2_ppm=ms2_ppm)
+
+    # 3. Remove noise ions
+    if noise_removal is not None and spectrum.shape[0] > 0:
+        max_intensity = np.max(spectrum[:, 1])
+        spectrum = spectrum[spectrum[:, 1] >= max_intensity * noise_removal]
+
+    # 4. Standardize the spectrum.
+    spectrum = standardize_spectrum(spectrum)
+    return spectrum
+
+
 def centroid_spec(spec, ms2_ppm=None, ms2_da=None):
     try:
         return tools_fast.centroid_spec(spec, ms2_ppm, ms2_da)
@@ -71,39 +132,6 @@ def centroid_spec(spec, ms2_ppm=None, ms2_da=None):
         return spec_new
     else:
         return spec
-
-
-def clean_spectrum(spec, noise=0.01, max_mz=None, ms2_ppm=None, ms2_da=None):
-    # return spectra.similarity.tools_fast.clean_spectrum(spec, ms2_ppm=ms2_ppm, ms2_da=ms2_da)
-    """
-    If both ms2_ppm and ms2_da is defined, ms2_da will be used.
-    """
-    # Remove intensity==0
-    if max_mz is None:
-        spec = [x for x in spec if (0 < x[0] and 0 < x[1])]
-    else:
-        spec = [x for x in spec if (0 < x[0] < max_mz and 0 < x[1])]
-
-    # Convert to numpy array
-    spec = np.asarray(spec, dtype=np.float32, order="C")
-
-    if spec.shape[0] > 0:
-        # Sort by m/z
-        spec = spec[np.argsort(spec[:, 0])]
-
-        # Centroid spectrum
-        spec = centroid_spec(spec, ms2_ppm, ms2_da)
-
-        # Remove noise peaks
-        if noise is not None:
-            spec_max = np.max(spec[:, 1])
-            spec = spec[spec[:, 1] > spec_max * noise]
-
-        # Normalize the spectrum to sum(intensity)==1
-        spec_sum = np.sum(spec[:, 1])
-        spec[:, 1] /= spec_sum
-
-    return spec
 
 
 def match_peaks_in_spectra(spec_a, spec_b, ms2_ppm=None, ms2_da=None):

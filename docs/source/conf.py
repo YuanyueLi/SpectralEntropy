@@ -13,13 +13,13 @@
 import os
 import sys
 sys.path.insert(0, os.path.abspath('../../'))
-sys.path.insert(0, os.path.abspath('../../spectral_similarity/'))
+sys.path.insert(0, os.path.abspath('../../spectral_entropy/'))
 
 
 # -- Project information -----------------------------------------------------
 
-project = 'Daphnis'
-copyright = '2020, Yuanyue Li'
+project = 'Spectral Entropy'
+copyright = '2021, Yuanyue Li'
 author = 'Yuanyue Li'
 
 

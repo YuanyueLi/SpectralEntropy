@@ -1,12 +1,6 @@
 [![Python Package using Conda](https://github.com/hechth/Daphnis/actions/workflows/python-package-conda.yml/badge.svg?branch=master)](https://github.com/hechth/Daphnis/actions/workflows/python-package-conda.yml)
 [![Python package](https://github.com/hechth/Daphnis/actions/workflows/python-package.yml/badge.svg?branch=master)](https://github.com/hechth/Daphnis/actions/workflows/python-package.yml)
 
-# Spectral similarity
-
-The similarity score for MS/MS spectral comparison
-
-You can find the detail reference here: [https://daphnis.readthedocs.io/en/master/](https://daphnis.readthedocs.io/en/master/)
-
 # Requirement
 
 Python 3.7, numpy>=1.17.4, scipy>=1.3.2
@@ -18,36 +12,118 @@ cython>=0.29.13 (Not required but highly recommended)
 python setup.py build_ext --inplace
 ```
 
-# Example code
+# Spectral entropy
 
-Before calculating spectral similarity, it's highly recommended to remove spectral noise. For example, peaks have intensity less than 1% maximum intensity can be removed to improve identificaiton performance.
+To calculate spectral entropy, the spectrum need to be centroid first. When you are focusing on fragment ion's
+information, the precursor ion may need to be removed from the spectrum before calculating spectral entropy.
+
+Calculate spectral entropy for **centroid** spectrum with python is very simple (just one line with scipy package).
 
 ```python
 import numpy as np
-import spectral_similarity
+import scipy.stats
+
+spectrum = np.array([[41.04, 37.16], [69.07, 66.83], [86.1, 999.0]], dtype=np.float32)
+
+entropy = scipy.stats.entropy(spectrum[:, 1])
+print("Spectral entropy is {}.".format(entropy))
+# The output should be: Spectral entropy is 0.3737888038158417.
+print('-' * 30)
+```
+
+For **profile** spectrum which haven't been centroid, you can use a ```clean_spectrum``` to centroid the spectrum, for
+example:
+
+```python
+import numpy as np
+import scipy.stats
+import spectral_entropy
+
+spectrum = np.array([[69.071, 7.917962], [86.066, 1.021589], [86.0969, 100.0]], dtype=np.float32)
+
+spectrum = spectral_entropy.clean_spectrum(spectrum)
+entropy = scipy.stats.entropy(spectrum[:, 1])
+print("Spectral entropy is {}.".format(entropy))
+# The output should be: Entropy similarity:0.2605222463607788.
+print('-' * 30)
+```
+
+
+We provide a function  ```clean_spectrum``` to help you remove precursor ion, centroid spectrum and remove noise ions.
+For example:
+
+```python
+import numpy as np
+import spectral_entropy
+
+spectrum = np.array([[41.04, 0.3716], [69.071, 7.917962], [69.071, 100.], [86.0969, 66.83]], dtype=np.float32)
+clean_spectrum = spectral_entropy.clean_spectrum(spectrum,
+                                                 max_mz=85,
+                                                 noise_removal=0.01,
+                                                 ms2_da=0.05)
+print("Clean spectrum will be:{}".format(clean_spectrum))
+# The output should be: Clean spectrum will be:[[69.071  1.   ]]
+print('-' * 30)
+```
+
+# Entropy similarity
+
+Before calculate entropy similarity, the spectrum need to be centroid first. Remove the noise ions is highly recommend.
+Also, base on our test on NIST20 and Massbank.us database, remove ions have m/z higher than precursor ion's m/z - 1.6
+will greatly improve the spectral identification performance.
+
+We provide ```calculate_entropy_similarity``` function to calculate two spectral entropy.
+
+```python
+import numpy as np
+import spectral_entropy
 
 spec_query = np.array([[69.071, 7.917962], [86.066, 1.021589], [86.0969, 100.0]], dtype=np.float32)
 spec_reference = np.array([[41.04, 37.16], [69.07, 66.83], [86.1, 999.0]], dtype=np.float32)
 
 # Calculate entropy similarity.
-print('-' * 30)
-similarity = spectral_similarity.similarity(spec_query, spec_reference, method="entropy",
-                                            ms2_da=0.05)
+similarity = spectral_entropy.calculate_entropy_similarity(spec_query, spec_reference, ms2_da=0.05)
 print("Entropy similarity:{}.".format(similarity))
-# The output should be: Entropy similarity:0.9082203404798316.
+# The output should be: Entropy similarity:0.8984397722577456.
+print('-' * 30)
+```
+
+# Spectral similarity
+We also provide 44 different spectral similarity algorithm for MS/MS spectral comparison
+
+You can find the detail reference
+here: [https://SpectralEntropy.readthedocs.io/en/master/](https://SpectralEntropy.readthedocs.io/en/master/)
+
+# Example code
+
+Before calculating spectral similarity, it's highly recommended to remove spectral noise. For example, peaks have
+intensity less than 1% maximum intensity can be removed to improve identificaiton performance.
+
+```python
+import numpy as np
+import spectral_entropy
+
+spec_query = np.array([[69.071, 7.917962], [86.066, 1.021589], [86.0969, 100.0]], dtype=np.float32)
+spec_reference = np.array([[41.04, 37.16], [69.07, 66.83], [86.1, 999.0]], dtype=np.float32)
+
+# Calculate entropy similarity.
+similarity = spectral_entropy.similarity(spec_query, spec_reference, method="entropy",
+                                         ms2_da=0.05)
+print("Entropy similarity:{}.".format(similarity))
+# The output should be: Entropy similarity:0.8984397722577456.
+print('-' * 30)
 
 # Calculate unweighted entropy similarity.
-print('-' * 30)
-similarity = spectral_similarity.similarity(spec_query, spec_reference, method="unweighted_entropy",
-                                            ms2_da=0.05)
+similarity = spectral_entropy.similarity(spec_query, spec_reference, method="unweighted_entropy",
+                                         ms2_da=0.05)
 print("Unweighted entropy similarity:{}.".format(similarity))
 # The output should be: Unweighted entropy similarity:0.9826668790176113.
+print('-' * 30)
 
 # Calculate all similarity.
-print('-' * 30)
-all_dist = spectral_similarity.all_similarity(spec_query, spec_reference, ms2_da=0.05)
+all_dist = spectral_entropy.all_similarity(spec_query, spec_reference, ms2_da=0.05)
 for dist_name in all_dist:
-    method_name = spectral_similarity.methods_name[dist_name]
+    method_name = spectral_entropy.methods_name[dist_name]
     print("Method name: {}, similarity score:{}.".format(method_name, all_dist[dist_name]))
 
 # A list of different spectral similarity will be shown.

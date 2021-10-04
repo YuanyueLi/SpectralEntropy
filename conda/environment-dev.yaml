@@ -1,4 +1,4 @@
-name: daphnis-dev
+name: spectral_entropy-dev
 channels:
   - defaults
 dependencies:
