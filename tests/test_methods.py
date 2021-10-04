@@ -1,13 +1,13 @@
 #!/usr/bin/python
 import pprint
-import spectral_similarity
+import spectral_entropy
 
 
 def test_0():
     spec_query = [[100, 0], [200, 80], [300, 20]]
     spec_reference = []
 
-    all_dist = spectral_similarity.all_distance(spec_query, spec_reference, ms2_da=0.05)
+    all_dist = spectral_entropy.all_distance(spec_query, spec_reference, ms2_da=0.05)
     pprint.pprint(all_dist)
 
 
@@ -16,7 +16,7 @@ def test_1():
     spec_query = [[100, 0], [200, 80], [300, 20]]
     spec_reference = [[100, 30], [200, 0], [300, 70]]
 
-    all_dist = spectral_similarity.all_distance(spec_query, spec_reference, ms2_da=0.05)
+    all_dist = spectral_entropy.all_distance(spec_query, spec_reference, ms2_da=0.05)
     pprint.pprint(all_dist)
     pass
 
@@ -25,7 +25,7 @@ def test_2():
     spec_query = [[200.0, 100]]
     spec_reference = [[201.0, 100]]
 
-    all_dist = spectral_similarity.all_distance(spec_query, spec_reference, ms2_da=0.05)
+    all_dist = spectral_entropy.all_distance(spec_query, spec_reference, ms2_da=0.05)
     pprint.pprint(all_dist)
     pass
 
@@ -34,7 +34,7 @@ def test_3():
     spec_query = []
     spec_reference = []
 
-    all_dist = spectral_similarity.all_distance(spec_query, spec_reference, ms2_da=0.05)
+    all_dist = spectral_entropy.all_distance(spec_query, spec_reference, ms2_da=0.05)
     pprint.pprint(all_dist)
 
 
@@ -70,7 +70,7 @@ def test_4():
                       [150.0914, 41.86],
                       [211.0543, 37.86]]
 
-    all_dist = spectral_similarity.all_distance(spec_query, spec_reference, ms2_da=0.05)
+    all_dist = spectral_entropy.all_distance(spec_query, spec_reference, ms2_da=0.05)
     pprint.pprint(all_dist)
     pass
 
@@ -79,7 +79,7 @@ def test_5():
     spec_query = [[69.071, 7.917962], [86.066, 1.021589], [86.0969, 100.0]]
     spec_reference = [[41.04, 37.16], [69.07, 66.83], [86.1, 999.0]]
 
-    all_dist = spectral_similarity.all_distance(spec_query, spec_reference, ms2_da=0.05)
+    all_dist = spectral_entropy.all_distance(spec_query, spec_reference, ms2_da=0.05)
     pprint.pprint(all_dist)
     pass
 
@@ -88,7 +88,7 @@ def test_6():
     spec_query = [[10, 0], [11, 1]]
     spec_reference = [[10, 0]]
 
-    all_dist = spectral_similarity.all_distance(spec_query, spec_reference, ms2_da=0.05)
+    all_dist = spectral_entropy.all_distance(spec_query, spec_reference, ms2_da=0.05)
     pprint.pprint(all_dist)
 
 

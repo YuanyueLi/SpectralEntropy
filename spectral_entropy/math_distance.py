@@ -34,7 +34,7 @@ def entropy_distance(p, q):
 def _weight_intensity_by_entropy(x):
     WEIGHT_START = 0.25
     ENTROPY_CUTOFF = 3
-    weight_slope = weight_slope = (1-WEIGHT_START) / ENTROPY_CUTOFF
+    weight_slope = (1-WEIGHT_START) / ENTROPY_CUTOFF
 
     if np.sum(x) > 0:
         entropy_x = scipy.stats.entropy(x)
