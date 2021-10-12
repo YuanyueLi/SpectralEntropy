@@ -1,6 +1,11 @@
 [![Python Package using Conda](https://github.com/hechth/Daphnis/actions/workflows/python-package-conda.yml/badge.svg?branch=master)](https://github.com/hechth/Daphnis/actions/workflows/python-package-conda.yml)
 [![Python package](https://github.com/hechth/Daphnis/actions/workflows/python-package.yml/badge.svg?branch=master)](https://github.com/hechth/Daphnis/actions/workflows/python-package.yml)
 
+# Search spectra with entropy similarity
+
+To search spectral files with entropy similarity, you can download pre-compiled program from [here](https://github.com/YuanyueLi/EntropySearch/releases).
+For advanced user who want to calculate spectral entropy / entropy similarity / other spectral similarity by themself, please use the Python code below.
+
 # Requirement
 
 Python 3.7, numpy>=1.17.4, scipy>=1.3.2
