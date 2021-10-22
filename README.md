@@ -7,6 +7,10 @@ To search spectral files with entropy similarity, you can download pre-compiled 
 
 For advanced user who want to calculate spectral entropy / entropy similarity / other spectral similarity by themself, please use the Python code below.
 
+A jupyter notebook example is provided here: [https://github.com/YuanyueLi/SpectralEntropy/blob/master/example.ipynb](https://github.com/YuanyueLi/SpectralEntropy/blob/master/example.ipynb)
+
+The detailed reference for using the 43 different algorithm to calculate spectral similarity can be found here: [https://SpectralEntropy.readthedocs.io/en/master/](https://SpectralEntropy.readthedocs.io/en/master/) 
+
 # Requirement
 
 Python 3.7, numpy>=1.17.4, scipy>=1.3.2
