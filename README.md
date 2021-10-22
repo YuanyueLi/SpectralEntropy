@@ -3,7 +3,8 @@
 
 # Search spectra with entropy similarity
 
-To search spectral files with entropy similarity, you can download pre-compiled program from [here](https://github.com/YuanyueLi/EntropySearch/releases).
+To search spectral files with entropy similarity, you can download pre-compiled program from [https://github.com/YuanyueLi/EntropySearch/releases](https://github.com/YuanyueLi/EntropySearch/releases).
+
 For advanced user who want to calculate spectral entropy / entropy similarity / other spectral similarity by themself, please use the Python code below.
 
 # Requirement
@@ -19,8 +20,9 @@ python setup.py build_ext --inplace
 
 # Spectral entropy
 
-To calculate spectral entropy, the spectrum need to be centroid first. When you are focusing on fragment ion's
-information, the precursor ion may need to be removed from the spectrum before calculating spectral entropy.
+To calculate spectral entropy, the spectrum need to be centroid first.
+When you are focusing on fragment ion's information, the precursor ion may need to be removed from the spectrum before calculating spectral entropy.
+If isotope peak exitsted on the MS/MS spectrum, the isotope peak should be removed fist as the isotope peak does not contain useful information for identifing molecule.
 
 Calculate spectral entropy for **centroid** spectrum with python is very simple (just one line with scipy package).
 
@@ -55,6 +57,7 @@ print('-' * 30)
 
 
 We provide a function  ```clean_spectrum``` to help you remove precursor ion, centroid spectrum and remove noise ions.
+Please note that this function will not remove the isotope peak, you need to remove the isotope peak by yourself.
 For example:
 
 ```python
@@ -94,7 +97,7 @@ print('-' * 30)
 ```
 
 # Spectral similarity
-We also provide 44 different spectral similarity algorithm for MS/MS spectral comparison
+We also provide 43 different spectral similarity algorithm for MS/MS spectral comparison
 
 You can find the detail reference
 here: [https://SpectralEntropy.readthedocs.io/en/master/](https://SpectralEntropy.readthedocs.io/en/master/)
