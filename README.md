@@ -1,6 +1,6 @@
 [![DOI](https://zenodo.org/badge/232434019.svg)](https://zenodo.org/badge/latestdoi/232434019)
-[![Python Package using Conda](https://github.com/hechth/Daphnis/actions/workflows/python-package-conda.yml/badge.svg?branch=master)](https://github.com/hechth/Daphnis/actions/workflows/python-package-conda.yml)
-[![Python package](https://github.com/hechth/Daphnis/actions/workflows/python-package.yml/badge.svg?branch=master)](https://github.com/hechth/Daphnis/actions/workflows/python-package.yml)
+[![Python Package using Conda](https://github.com/YuanyueLi/SpectralEntropy/actions/workflows/python-package-conda.yml/badge.svg?branch=master)](https://github.com/YuanyueLi/SpectralEntropy/actions/workflows/python-package-conda.yml)
+[![Python package](https://github.com/YuanyueLi/SpectralEntropy/actions/workflows/python-package.yml/badge.svg?branch=master)](https://github.com/YuanyueLi/SpectralEntropy/actions/workflows/python-package.yml)
 
 # Search spectra with entropy similarity
 
