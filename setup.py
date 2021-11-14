@@ -19,7 +19,7 @@ setup(
         "pytest",
         "pytest-cov"
     ],
-    ext_modules=cythonize("spectral_entropy/tools_fast.pyx",
+    ext_modules=cythonize(["spectral_entropy/tools_fast.pyx", "fast/tools_fast.pyx"],
                           annotate=True,
                           compiler_directives={
                               'language_level': "3",
