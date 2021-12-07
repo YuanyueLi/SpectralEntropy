@@ -12,8 +12,8 @@ def unweighted_entropy_distance(p, q):
     """
     merged = p + q
     entropy_increase = 2 * \
-        scipy.stats.entropy(merged) - scipy.stats.entropy(p) - \
-        scipy.stats.entropy(q)
+                       scipy.stats.entropy(merged) - scipy.stats.entropy(p) - \
+                       scipy.stats.entropy(q)
     return entropy_increase
 
 
@@ -34,7 +34,7 @@ def entropy_distance(p, q):
 def _weight_intensity_by_entropy(x):
     WEIGHT_START = 0.25
     ENTROPY_CUTOFF = 3
-    weight_slope = (1-WEIGHT_START) / ENTROPY_CUTOFF
+    weight_slope = (1 - WEIGHT_START) / ENTROPY_CUTOFF
 
     if np.sum(x) > 0:
         entropy_x = scipy.stats.entropy(x)
@@ -405,24 +405,43 @@ def absolute_value_distance(p, q):
 
 def dot_product_distance(p, q):
     r"""
-    Dot-Product distance:
+    Dot product distance:
 
     .. math::
 
-        1 - (\frac{(\sum{Q_iP_i})^2}{\sum{Q_i^2\sum P_i^2}})^1/2
+        1 - \sqrt{\frac{(\sum{Q_iP_i})^2}{\sum{Q_i^2\sum P_i^2}}}
     """
     score = np.power(np.sum(q * p), 2) / \
             (np.sum(np.power(q, 2)) * np.sum(np.power(p, 2)))
     return 1 - np.sqrt(score)
 
 
-def dot_product_reverse_distance(p, q):
+def cosine_distance(p, q):
     r"""
-    Dot-Product reverse distance:
+    Cosine distance, it gives the same result as the dot product.
 
     .. math::
 
-        1 - (\frac{(\sum{Q_iP_i})^2}{\sum{Q_i^2\sum P_i^2}})^1/2
+        1 - \sqrt{\frac{(\sum{Q_iP_i})^2}{\sum{Q_i^2\sum P_i^2}}}
+    """
+    return dot_product_distance(p, q)
+
+
+def dot_product_reverse_distance(p, q):
+    r"""
+    Reverse dot product distance, only consider peaks existed in spectrum Q.
+
+    .. math::
+
+        1 - \sqrt{\frac{(\sum{{Q_i^'} {P_i^'}})^2}{{\sum{Q_i^'^2}{\sum P_i^'^2}}}}, with:
+
+        P^{'}_{i}=\frac{P^{''}_{i}}{\sum_{i}{P^{''}_{i}}},
+
+        P^{''}_{i}=\begin{cases}
+        0 & \text{ if } Q_{i}=0 \\
+        P_{i} & \text{ if } Q_{i}\neq0
+        \end{cases}
+
     """
 
     p, q = _select_common_peaks(p, q)
