@@ -433,7 +433,7 @@ def dot_product_reverse_distance(p, q):
 
     .. math::
 
-        1 - \sqrt{\frac{(\sum{{Q_i^'} {P_i^'}})^2}{{\sum{Q_i^'^2}{\sum P_i^'^2}}}}, with:
+        1 - \sqrt{\frac{(\sum{{} {P_i^{'}}})^2}{{\sum{(Q_i^{'})^2}{\sum (P_i^{'})^2}}}}, with:
 
         P^{'}_{i}=\frac{P^{''}_{i}}{\sum_{i}{P^{''}_{i}}},
 
@@ -455,7 +455,9 @@ def dot_product_reverse_distance(p, q):
 
 def spectral_contrast_angle_distance(p, q):
     r"""
-    Spectral Contrast Angle:
+    Spectral Contrast Angle distance.
+    Please note that the value calculated here is :math:`\cos\theta`.
+    If you want to get the :math:`\theta`, you can calculate with: :math:`\arccos(1-distance)`
 
     .. math::
 
