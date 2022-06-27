@@ -2,6 +2,10 @@
 [![Python Package using Conda](https://github.com/YuanyueLi/SpectralEntropy/actions/workflows/python-package-conda.yml/badge.svg?branch=master)](https://github.com/YuanyueLi/SpectralEntropy/actions/workflows/python-package-conda.yml)
 [![Python package](https://github.com/YuanyueLi/SpectralEntropy/actions/workflows/python-package.yml/badge.svg?branch=master)](https://github.com/YuanyueLi/SpectralEntropy/actions/workflows/python-package.yml)
 
+When use this package, please cite this manuscript:
+
+Li, Y., Kind, T., Folz, J. _et al._ Spectral entropy outperforms MS/MS dot product similarity for small-molecule compound identification. _Nat Methods_ **18**, 1524–1531 (2021). https://doi.org/10.1038/s41592-021-01331-z
+
 # Search spectra with entropy similarity
 
 To search spectral files with entropy similarity, you can download pre-compiled program from [https://github.com/YuanyueLi/EntropySearch/releases](https://github.com/YuanyueLi/EntropySearch/releases).
