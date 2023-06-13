@@ -10,13 +10,19 @@ Li, Y., Kind, T., Folz, J. _et al._ Spectral entropy outperforms MS/MS dot produ
 
 To search spectral files with entropy similarity, you can download pre-compiled program from [https://github.com/YuanyueLi/EntropySearch/releases](https://github.com/YuanyueLi/EntropySearch/releases).
 
+- **For Python user**
+
 For advanced user who want to calculate spectral entropy / entropy similarity / other spectral similarity by themself, please use the Python code below.
 
 A jupyter notebook example is provided here: [https://github.com/YuanyueLi/SpectralEntropy/blob/master/example.ipynb](https://github.com/YuanyueLi/SpectralEntropy/blob/master/example.ipynb)
 
 The detailed reference for using the 43 different algorithm to calculate spectral similarity can be found here: [https://SpectralEntropy.readthedocs.io/en/master/](https://SpectralEntropy.readthedocs.io/en/master/) 
 
-You might noticed a entropy similarity score higher than 1 in your self-implemented code, this is due to the mistake in merging peaks within MS2-tolerance. You can use the code implemented here to avoid this problem. We are working to provide a R-implemented code for entropy similarity, which will be released soon.
+- **For R user**
+
+We also provided an R package called "msentropy" to calculate entropy similarity, you can find the information here: [https://cran.r-project.org/web/packages/msentropy/index.html](https://cran.r-project.org/web/packages/msentropy/index.html)
+
+You might noticed a entropy similarity score higher than 1 in your self-implemented code, this is due to the mistake in merging peaks within MS2-tolerance. You can use the code implemented here to avoid this problem. 
 
 # Requirement
 
