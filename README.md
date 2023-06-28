@@ -8,19 +8,23 @@ Li, Y., Kind, T., Folz, J. _et al._ Spectral entropy outperforms MS/MS dot produ
 
 # Search spectra with entropy similarity
 
-To search spectral files with entropy similarity, you can download pre-compiled program from [https://github.com/YuanyueLi/EntropySearch/releases](https://github.com/YuanyueLi/EntropySearch/releases).
+To search spectral files with entropy similarity, you can find the Graphical user interface (GUI) here: [Entropy Search](https://github.com/YuanyueLi/EntropySearch/releases)
 
 - **For Python user**
 
-For advanced user who want to calculate spectral entropy / entropy similarity / other spectral similarity by themself, please use the Python code below.
+For advanced user who want to calculate spectral entropy / entropy similarity by themself, please use the Python code from the `MSEntropy` package: [https://github.com/YuanyueLi/MSEntropy](https://github.com/YuanyueLi/MSEntropy).
 
-A jupyter notebook example is provided here: [https://github.com/YuanyueLi/SpectralEntropy/blob/master/example.ipynb](https://github.com/YuanyueLi/SpectralEntropy/blob/master/example.ipynb)
+You can find find the latest version of the `MSEntropy` package documentation here: [https://msentropy.readthedocs.io/](https://msentropy.readthedocs.io/).
 
 The detailed reference for using the 43 different algorithm to calculate spectral similarity can be found here: [https://SpectralEntropy.readthedocs.io/en/master/](https://SpectralEntropy.readthedocs.io/en/master/) 
 
 - **For R user**
 
 We also provided an R package called "msentropy" to calculate entropy similarity, you can find the information here: [https://cran.r-project.org/web/packages/msentropy/index.html](https://cran.r-project.org/web/packages/msentropy/index.html)
+
+- **For C/C++ user**
+
+You can find the C/C++ code from the `MSEntropy` repository here: [https://github.com/YuanyueLi/MSEntropy](https://github.com/YuanyueLi/MSEntropy).
 
 You might noticed a entropy similarity score higher than 1 in your self-implemented code, this is due to the mistake in merging peaks within MS2-tolerance. You can use the code implemented here to avoid this problem. 
 
