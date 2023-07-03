@@ -30,7 +30,7 @@ Our GUI provides a user-friendly way to visualize and calculate entropy similari
 
 - For a straightforward approach to real-time visualize and calculate entropy similarity for two MS/MS spectra, use the [MS Viewer web app](https://yuanyueli.github.io/MSViewer).
 
-- To search a spectral file against another spectral file or a spectral library, use the [Entropy Search GUI](https://github.com/YuanyueLi/EntropySearch).
+- To search one spectral file against another spectral file or a spectral library, use the [Entropy Search GUI](https://github.com/YuanyueLi/EntropySearch). The GUI supports `.mgf`, `.msp`, `.mzML`, and `.lbm2` file formats.
 
 ### Coding with Our Package
 
@@ -38,17 +38,17 @@ If you prefer to integrate our tools directly into your code, visit the [MSEntro
 
 - To calculate spectral entropy or entropy similarity:
 
-  - Python users: use the [`ms-entropy` package](https://pypi.org/project/ms-entropy/). Find the documentation [here](https://msentropy.readthedocs.io/).
+  - **Python** users: use the [`ms-entropy` package](https://pypi.org/project/ms-entropy/). Find the documentation [here](https://msentropy.readthedocs.io/).
 
-  - R users: use the [`msentropy` package](https://cran.r-project.org/web/packages/msentropy/index.html). Documentation is available [here](https://cran.r-project.org/web/packages/msentropy/msentropy.pdf).
+  - **R** users: use the [`msentropy` package](https://cran.r-project.org/web/packages/msentropy/index.html). Documentation is available [here](https://cran.r-project.org/web/packages/msentropy/msentropy.pdf).
 
-  - C/C++ users: refer to the examples in the [languages/c folder of `MSEntropy` repository](https://github.com/YuanyueLi/MSEntropy/tree/main/languages/c).
+  - **C/C++** users: refer to the examples in the [languages/c folder of `MSEntropy` repository](https://github.com/YuanyueLi/MSEntropy/tree/main/languages/c).
 
-  - JavaScript users: refer to the examples in the [languages/javascript folder of `MSEntropy` repository](https://github.com/YuanyueLi/MSEntropy/tree/main/languages/javascript).
+  - **JavaScript** users: refer to the examples in the [languages/javascript folder of `MSEntropy` repository](https://github.com/YuanyueLi/MSEntropy/tree/main/languages/javascript).
 
 - To use the Flash entropy search algorithm to search a spectral file against a large spectral library:
 
-  Currently, the Flash entropy search algorithm is only available in Python. Use the [`ms-entropy` package](https://pypi.org/project/ms-entropy/). Find the documentation [here](https://msentropy.readthedocs.io/).
+  Currently, the Flash entropy search algorithm is only available in **Python**. Use the [`ms-entropy` package](https://pypi.org/project/ms-entropy/). Find the documentation [here](https://msentropy.readthedocs.io/).
 
 ------------------------------------------------------------------------
 
@@ -76,7 +76,11 @@ You can install the `msentropy` package using `install.packages`:
 
 ### For C/C++ user
 
-Source code and example code for calculating spectral entropy and entropy similarity in C/C++ can be found in the `MSEntropy` repository on [GitHub](https://github.com/YuanyueLi/MSEntropy).
+Source code and example code for calculating spectral entropy and entropy similarity in C/C++ can be found in the [languages/c folder of `MSEntropy` repository](https://github.com/YuanyueLi/MSEntropy/tree/main/languages/c).
+
+### For JavaScript user
+
+Source code and example code for calculating spectral entropy and entropy similarity in JavaScript can be found in the [languages/javascript folder of `MSEntropy` repository](https://github.com/YuanyueLi/MSEntropy/tree/main/languages/javascript).
 
 Please note: If you encounter an entropy similarity score higher than 1 in your self-implemented code, it could be due to errors in merging peaks within MS2-tolerance. Use the code provided in our repository to avoid this issue.
 
