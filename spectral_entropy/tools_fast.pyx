@@ -171,7 +171,7 @@ cdef float32[:,:] match_spectrum_c(float32[:,:] spec_a,float32[:,:] spec_b,float
     with nogil:
         while a < spec_a.shape[0] and b < spec_b.shape[0]:
             if ms2_ppm > 0:
-                ms2_da = ms2_ppm * 1e6 * spec_a[a,0]
+                ms2_da = ms2_ppm * 1e-6 * spec_a[a,0]
             mass_delta_da = spec_a[a, 0] - spec_b[b, 0]
 
             if mass_delta_da < -ms2_da:
@@ -237,7 +237,7 @@ cdef np_int_64[:,:] match_spectrum_output_number_c(float32[:,:] spec_a,float32[:
     #if 1:
         while a < spec_a.shape[0] and b < spec_b.shape[0]:
             if ms2_ppm > 0:
-                ms2_da = ms2_ppm * 1e6 * spec_a[a,0]
+                ms2_da = ms2_ppm * 1e-6 * spec_a[a,0]
             mass_delta_da = spec_a[a, 0] - spec_b[b, 0]
 
             if mass_delta_da < -ms2_da:
