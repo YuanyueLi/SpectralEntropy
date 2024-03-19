@@ -153,7 +153,7 @@ def match_peaks_in_spectra(spec_a, spec_b, ms2_ppm=None, ms2_da=None):
 
     while a < spec_a.shape[0] and b < spec_b.shape[0]:
         if ms2_da is None:
-            ms2_da = ms2_ppm * spec_a[a, 0] * 1e6
+            ms2_da = ms2_ppm * spec_a[a, 0] * 1e-6
         mass_delta = spec_a[a, 0] - spec_b[b, 0]
 
         if mass_delta < -ms2_da:

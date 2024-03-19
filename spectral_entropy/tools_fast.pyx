@@ -112,7 +112,7 @@ cdef float32[:] merge_spectrum_c(float32[:,:] spec_a,float32[:,:] spec_b,float32
     with nogil:
         while a < spec_a.shape[0] and b < spec_b.shape[0]:
             if ms2_ppm > 0:
-                ms2_da = ms2_ppm * 1e6 * spec_a[a,0]
+                ms2_da = ms2_ppm * 1e-6 * spec_a[a,0]
             mass_delta_da = spec_a[a, 0] - spec_b[b, 0]
 
             if mass_delta_da < -ms2_da:
