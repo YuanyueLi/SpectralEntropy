@@ -1,5 +1,41 @@
 import numpy as np
 import scipy.stats
+import sys
+
+
+def calculate_tsallis_entropy(ints, entropy_dimension):
+    r"""
+    function to calculate Tsallis entropy:
+    H_{Tsallis}(I,q)=\frac{\left(\sum_{i=1}^{n}a_{i}^{q}\right)-1}{1-q}
+    """
+    if np.sum(ints) > 0:
+        ints2 = ints
+        ints2 /= np.sum(ints2)
+        return (sum(np.power(ints,entropy_dimension))-1) / (1-entropy_dimension)
+    else:
+        return 0
+
+
+def tsallis_entropy_distance(p, q, entropy_dimension):
+    r"""
+      S_{Tsallis}(I,J,q)=1-\frac{2\times H_{Tsallis}(I/2+J/2,q)-H_{Tsallis}(I,q)-H_{Tsallis}(J,q)}{N_{Tsallis}(I,J,q)},\\
+      N_{Tsallis}(I,J,q):=\frac{\sum_{i=1}^{n}\left(2\left(\frac{a_{i}}{2}\right)^{q}+2\left(\frac{b_{i}}{2}\right)^{q}-a_{i}^{q}-b_{i}^{q}\right)}{1-q},\\
+      H_{Tsallis}(I,q)=\frac{\left(\sum_{i=1}^{n}a_{i}^{q}\right)-1}{1-q},\\
+      q\neq 1, \ q > 0
+    """
+    if entropy_dimension <= 0:
+        print('Error: entropy_dimension must be positive')
+        sys.exit()
+    elif entropy_dimension == 1:
+        print('Warning: when entropy_dimension is set to 1, then the Tsallis Entropy Similarity Measure is equivalent to the Shannon Entropy Similarity Measure')
+        #return(unweighted_entropy_distance(p,q)/np.log(4))
+        return (entropy_distance(p,q) / np.log(4))
+    else:
+        ent_p = calculate_tsallis_entropy(p, entropy_dimension)
+        ent_q = calculate_tsallis_entropy(q, entropy_dimension)
+        ent_pq = calculate_tsallis_entropy((p+q)/2, entropy_dimension)
+        N = np.sum(2*np.power(p/2,entropy_dimension)+2*np.power(q/2,entropy_dimension)-np.power(p,entropy_dimension)-np.power(q,entropy_dimension)) / (1-entropy_dimension)
+        return (2 * ent_pq - ent_p - ent_q) / N
 
 
 def unweighted_entropy_distance(p, q):

@@ -9,6 +9,7 @@ except:
 
 methods_name = {
     "entropy": "Entropy distance",
+    "tsallis_entropy": "Tsallis Entropy distance",
     "unweighted_entropy": "Unweighted entropy distance",
     "euclidean": "Euclidean distance",
     "manhattan": "Manhattan distance",
@@ -56,6 +57,7 @@ methods_name = {
 
 methods_range = {
     "entropy": [0, np.log(4)],
+    "tsallis_entropy": [0, 1],
     "unweighted_entropy": [0, np.log(4)],
     "absolute_value": [0, 2],
     "avg_l": [0, 1.5],
@@ -90,14 +92,14 @@ methods_range = {
 
 def similarity(spectrum_query: Union[list, np.ndarray], spectrum_library: Union[list, np.ndarray], method: str,
                ms2_ppm: float = None, ms2_da: float = None,
-               need_clean_spectra: bool = True, need_normalize_result: bool = True) -> float:
+               need_clean_spectra: bool = True, need_normalize_result: bool = True, entropy_dimension: float = 2) -> float:
     """
     Calculate the similarity between two spectra, find common peaks.
     If both ms2_ppm and ms2_da is defined, ms2_da will be used.
     :param spectrum_query: The query spectrum, need to be in numpy array format.
     :param spectrum_library: The library spectrum, need to be in numpy array format.
     :param method: Supported methods:
-            "entropy", "unweighted_entropy", "euclidean", "manhattan", "chebyshev", "squared_euclidean", "fidelity", \
+            "entropy", "tsallis_entropy", "unweighted_entropy", "euclidean", "manhattan", "chebyshev", "squared_euclidean", "fidelity", \
             "matusita", "squared_chord", "bhattacharya_1", "bhattacharya_2", "harmonic_mean", \
             "probabilistic_symmetric_chi_squared", "ruzicka", "roberts", "intersection", \
             "motyka", "canberra", "baroni_urbani_buser", "penrose_size", "mean_character", "lorentzian",\
@@ -109,16 +111,17 @@ def similarity(spectrum_query: Union[list, np.ndarray], spectrum_library: Union[
     :param ms2_da: The MS/MS tolerance in Da.
     :param need_clean_spectra: Normalize spectra before comparing, required for not normalized spectrum.
     :param need_normalize_result: Normalize the result into [0,1].
+    :param entropy_dimension: 'q' parameter for Tsallis entropy
     :return: Similarity between two spectra
     """
     if need_normalize_result:
         return 1 - distance(spectrum_query=spectrum_query, spectrum_library=spectrum_library, method=method,
                             need_clean_spectra=need_clean_spectra, need_normalize_result=need_normalize_result,
-                            ms2_ppm=ms2_ppm, ms2_da=ms2_da)
+                            ms2_ppm=ms2_ppm, ms2_da=ms2_da, entropy_dimension=entropy_dimension)
     else:
         return 0 - distance(spectrum_query=spectrum_query, spectrum_library=spectrum_library, method=method,
                             need_clean_spectra=need_clean_spectra, need_normalize_result=need_normalize_result,
-                            ms2_ppm=ms2_ppm, ms2_da=ms2_da)
+                            ms2_ppm=ms2_ppm, ms2_da=ms2_da, entropy_dimension=entropy_dimension)
 
 
 def all_similarity(spectrum_query: Union[list, np.ndarray], spectrum_library: Union[list, np.ndarray],
@@ -181,7 +184,7 @@ def multiple_similarity(spectrum_query: Union[list, np.ndarray], spectrum_librar
 
 def distance(spectrum_query: Union[list, np.ndarray], spectrum_library: Union[list, np.ndarray], method: str,
              ms2_ppm: float = None, ms2_da: float = None,
-             need_clean_spectra: bool = True, need_normalize_result: bool = True) -> float:
+             need_clean_spectra: bool = True, need_normalize_result: bool = True, entropy_dimension: float = 2) -> float:
     """
     Calculate the distance between two spectra, find common peaks.
     If both ms2_ppm and ms2_da is defined, ms2_da will be used.
@@ -189,7 +192,7 @@ def distance(spectrum_query: Union[list, np.ndarray], spectrum_library: Union[li
     :param spectrum_query: The query spectrum, need to be in numpy array format.
     :param spectrum_library: The library spectrum, need to be in numpy array format.
     :param method: Supported methods:
-            "entropy", "unweighted_entropy", "euclidean", "manhattan", "chebyshev", "squared_euclidean", "fidelity", \
+            "entropy", "tsallis_entropy", "unweighted_entropy", "euclidean", "manhattan", "chebyshev", "squared_euclidean", "fidelity", \
             "matusita", "squared_chord", "bhattacharya_1", "bhattacharya_2", "harmonic_mean", \
             "probabilistic_symmetric_chi_squared", "ruzicka", "roberts", "intersection", \
             "motyka", "canberra", "baroni_urbani_buser", "penrose_size", "mean_character", "lorentzian",\
@@ -201,6 +204,7 @@ def distance(spectrum_query: Union[list, np.ndarray], spectrum_library: Union[li
     :param ms2_da: The MS/MS tolerance in Da.
     :param need_clean_spectra: Normalize spectra before comparing, required for not normalized spectrum.
     :param need_normalize_result: Normalize the result into [0,1].
+    :param entropy_dimension: 'q' parameter for Tsallis entropy
     :return: Distance between two spectra
     """
 
@@ -220,7 +224,10 @@ def distance(spectrum_query: Union[list, np.ndarray], spectrum_library: Union[li
             f = getattr(math_distance, function_name)
             spec_matched = match_peaks_in_spectra(spec_a=spectrum_query, spec_b=spectrum_library,
                                                   ms2_ppm=ms2_ppm, ms2_da=ms2_da)
-            dist = f(spec_matched[:, 1], spec_matched[:, 2])
+            if function_name == "tsallis_entropy_distance":
+                dist = f(spec_matched[:, 1], spec_matched[:, 2], entropy_dimension=entropy_dimension)
+            else:
+                dist = f(spec_matched[:, 1], spec_matched[:, 2])
 
         elif hasattr(ms_distance, function_name):
             f = getattr(ms_distance, function_name)
@@ -248,7 +255,7 @@ def distance(spectrum_query: Union[list, np.ndarray], spectrum_library: Union[li
 
 def all_distance(spectrum_query: Union[list, np.ndarray], spectrum_library: Union[list, np.ndarray],
                  ms2_ppm: float = None, ms2_da: float = None,
-                 need_clean_spectra: bool = True, need_normalize_result: bool = True) -> dict:
+                 need_clean_spectra: bool = True, need_normalize_result: bool = True, entropy_dimension: float = 2) -> dict:
     """
     Calculate the distance between two spectra, find common peaks.
     If both ms2_ppm and ms2_da is defined, ms2_da will be used.
@@ -259,8 +266,8 @@ def all_distance(spectrum_query: Union[list, np.ndarray], spectrum_library: Unio
     :param ms2_da: The MS/MS tolerance in Da.
     :param need_clean_spectra: Normalize spectra before comparing, required for not normalized spectrum.
     :param need_normalize_result: Normalize the result into [0,1].
+    :param entropy_dimension: 'q' parameter for Tsallis entropy
     :return: Distance between two spectra
-
     """
 
     if ms2_ppm is None and ms2_da is None:
@@ -280,7 +287,10 @@ def all_distance(spectrum_query: Union[list, np.ndarray], spectrum_library: Unio
             function_name = method + "_distance"
             if hasattr(math_distance, function_name):
                 f = getattr(math_distance, function_name)
-                dist = f(spec_matched[:, 1], spec_matched[:, 2])
+                if function_name == "tsallis_entropy_distance":
+                    dist = f(spec_matched[:, 1], spec_matched[:, 2], entropy_dimension=entropy_dimension)
+                else:
+                    dist = f(spec_matched[:, 1], spec_matched[:, 2])
             elif hasattr(ms_distance, function_name):
                 f = getattr(ms_distance, function_name)
                 dist = f(spectrum_query, spectrum_library, ms2_ppm=ms2_ppm, ms2_da=ms2_da)
