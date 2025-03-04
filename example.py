@@ -27,13 +27,29 @@ print('-' * 30)
 
 # Calculate entropy similarity.
 similarity = spectral_entropy.calculate_entropy_similarity(spec_query, spec_reference, ms2_da=0.05)
-print("Entropy similarity:{}.".format(similarity))
+print("Entropy similarity: {}.".format(similarity))
 print('-' * 30)
 
 # Another way to calculate entropy similarity, the result from this method is the same as the previous method.
 similarity = spectral_entropy.similarity(spec_query, spec_reference, method="entropy", ms2_da=0.05)
-print("Entropy similarity:{}.".format(similarity))
+print("Entropy similarity: {}.".format(similarity))
 print('-' * 30)
+
+# Tsallis entropy similarity measure
+similarity = spectral_entropy.similarity(spec_query, spec_reference, method="tsallis_entropy", ms2_da=0.05, entropy_dimension=2)
+print("Tsallis Entropy similarity with entropy_dimension=2: {}.".format(similarity))
+print('-' * 30)
+
+similarity = spectral_entropy.similarity(spec_query, spec_reference, method="tsallis_entropy", ms2_da=0.05, entropy_dimension=1)
+print("Tsallis Entropy similarity with entropy_dimension=1: {}.".format(similarity))
+print('-' * 30)
+
+# uncomment to test case where negative entropy_dimension is passed to the Tsallis Entropy Similarity Measure
+'''
+print("Tsallis Entropy similarity with entropy_dimension=-0.05: {}.".format(similarity))
+similarity = spectral_entropy.similarity(spec_query, spec_reference, method="tsallis_entropy", ms2_da=0.05, entropy_dimension=-0.05)
+print('-' * 30)
+'''
 
 # Calculate unweighted entropy distance.
 similarity = spectral_entropy.similarity(spec_query, spec_reference, method="unweighted_entropy",
@@ -46,3 +62,4 @@ all_dist = spectral_entropy.all_similarity(spec_query, spec_reference, ms2_da=0.
 for dist_name in all_dist:
     method_name = spectral_entropy.methods_name[dist_name]
     print("Method name: {}, similarity score:{}.".format(method_name, all_dist[dist_name]))
+
