@@ -1,6 +1,12 @@
 #!/usr/bin/python
 import pprint
+import sys
+import os
+
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__),"..")))
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__),"../spectral_entropy")))
 import spectral_entropy
+from tools import *
 
 
 def test_0():
@@ -92,6 +98,22 @@ def test_6():
     pprint.pprint(all_dist)
 
 
+def test_7():
+    spec_query = np.array([[69.071, 7.917962], [86.066, 1.021589], [86.0969, 100.0]])
+    spec_reference = np.array([[41.04, 37.16], [69.07, 66.83], [86.1, 999.0]])
+
+    print("\nBefore weight factor transformation with (wf_mz,wf_int)=(0.5,1.5):")
+    print(spec_query)
+    print(spec_reference)
+
+    spec_query[:,1] = weight_factor_transformation(mzs = spec_query[:,0], ints = spec_query[:,1], wf_mz = 0.5, wf_int = 1.5)
+    spec_reference[:,1] = weight_factor_transformation(mzs = spec_reference[:,0], ints = spec_reference[:,1], wf_mz = 0.5, wf_int = 1.5)
+
+    print("\nAfter weight factor transformation with (wf_mz,wf_int)=(0.5,1.5):")
+    print(spec_query)
+    print(spec_reference)
+
+
 if __name__ == '__main__':
     test_0()
     test_0()
@@ -100,3 +122,4 @@ if __name__ == '__main__':
     test_2()
     test_3()
     test_4()
+    test_7()
