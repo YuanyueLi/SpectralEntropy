@@ -262,3 +262,24 @@ def normalize_distance(dist, dist_range):
         result = 1.
 
     return result
+
+
+def weight_factor_transformation(mzs, ints, wf_mz, wf_int):
+    """
+    This function performs a weight factor transformation on a spectrum
+    
+    input:
+    wf_int: float
+    wf_mz: float
+    mzs: 1d np array representing mass/charge values 
+    ints: 1d np array representing intensity values 
+
+    mzs and ints must be of the same length N
+
+    output:
+    ints: 1d np array of weight-factor-transformed spectrum intensities
+    """
+
+    ints2 = np.power(mzs, wf_mz) * np.power(ints, wf_int)
+    return(ints2)
+
